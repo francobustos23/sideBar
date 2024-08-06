@@ -2,12 +2,11 @@ import React from 'react'
 
 export const Dashboard = () => {
     return (
-        <section class="home">
-            <div class="text">
+        <section className="home">
+            <div className="text">
                 Dashboard
             </div>
             <div>
-                
             </div>
         </section>
     )

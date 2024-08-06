@@ -1,89 +1,131 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 
 export const LeftBar = () => {
+    const sidebarRef = useRef(null);
+    const toggleRef = useRef(null);
+    const searchBtnRef = useRef(null);
+    const modeSwitchRef = useRef(null);
+    const modeTextRef = useRef(null);
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        const sidebar = sidebarRef.current;
+        const toggle = toggleRef.current;
+        const searchBtn = searchBtnRef.current;
+        const modeSwitch = modeSwitchRef.current;
+        const modeText = modeTextRef.current;
+
+        const handleToggleClick = () => {
+            sidebar.classList.toggle('close');
+        };
+
+        const handleSearchClick = () => {
+            sidebar.classList.remove('close');
+        };
+
+        const handleModeSwitchClick = () => {
+            document.body.classList.toggle('dark');
+            setIsDarkMode(document.body.classList.contains('dark'));
+        };
+
+        toggle.addEventListener('click', handleToggleClick);
+        searchBtn.addEventListener('click', handleSearchClick);
+        modeSwitch.addEventListener('click', handleModeSwitchClick);
+
+        return () => {
+            toggle.removeEventListener('click', handleToggleClick);
+            searchBtn.removeEventListener('click', handleSearchClick);
+            modeSwitch.removeEventListener('click', handleModeSwitchClick);
+        };
+    }, []);
+
+    useEffect(() => {
+        const modeText = modeTextRef.current;
+        modeText.textContent = isDarkMode ? 'Dark mode' : 'Light mode';
+    }, [isDarkMode]);
+
     return (
-            <nav class="sidebar close">
+        <nav className="sidebar close" ref={sidebarRef}>
 
-                <header>
+            <header>
+                <div className="text logo">
+                    <span className="name">MentalHealth</span>
+                    <span className="profe">Desarrollador</span>
+                </div>
+                <i className="bx bx-menu toggle" ref={toggleRef}></i>
+            </header>
 
-                    <div class="text logo">
-                        <span class="name">MentalHealth</span>
-                        <span class="profe">Desarrollador</span>
-                    </div>
-                    <i class="bx bx-menu toggle"></i>
-                </header>
+            <div className="menu-bar">
+                <div className="menu">
+                    <li className="search-box" ref={searchBtnRef}>
+                        <i className="bx bx-search icon"></i>
+                        <input type="text" placeholder="Buscar..." />
+                    </li>
 
-                <div class="menu-bar">
-                    <div class="menu">
-                        <li class="search-box">
-                            <i class="bx bx-search icon"></i>
-                            <input type="text" placeholder="Buscar..." />
-                        </li>
-
-                        <ul class="menu-links">
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-home-alt icon"></i>
-                                    <span class="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-bar-chart-alt-2 icon"></i>
-                                    <span class="text nav-text">Ganancia</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-bell icon"></i>
-                                    <span class="text nav-text">Notificaciones</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-pie-chart-alt icon"></i>
-                                    <span class="text nav-text">Analiticas</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-heart icon"></i>
-                                    <span class="text nav-text">Me gustas</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-link">
-                                <a href="#">
-                                    <i class="bx bx-wallet icon"></i>
-                                    <span class="text nav-text">Carteras</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <div class="bottom-content">
-                        <li class="">
+                    <ul className="menu-links">
+                        <li className="nav-link">
                             <a href="#">
-                                <i class="bx bx-log-out icon"></i>
-                                <span class="text nav-text">Salir</span>
+                                <i className="bx bx-home-alt icon"></i>
+                                <span className="text nav-text">Dashboard</span>
                             </a>
                         </li>
-                        <li class="mode">
-                            <div class="sun-moon">
-                                <i class="bx bx-moon icon moon"></i>
-                                <i class="bx bx-sun icon sun"></i>
-                            </div>
-                            <span class="mode-text text">Modo oscuro</span>
-                            <div class="toggle-switch">
-                                <span class="switch"></span>
-                            </div>
+
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-bar-chart-alt-2 icon"></i>
+                                <span className="text nav-text">Ganancia</span>
+                            </a>
                         </li>
-                    </div>
+
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-bell icon"></i>
+                                <span className="text nav-text">Notificaciones</span>
+                            </a>
+                        </li>
+
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-pie-chart-alt icon"></i>
+                                <span className="text nav-text">Analiticas</span>
+                            </a>
+                        </li>
+
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-heart icon"></i>
+                                <span className="text nav-text">Me gustas</span>
+                            </a>
+                        </li>
+
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-wallet icon"></i>
+                                <span className="text nav-text">Carteras</span>
+                            </a>
+                        </li>
+
+                    </ul>
                 </div>
-            </nav>
-    )
+                <div className="bottom-content">
+                    <li className="">
+                        <a href="#">
+                            <i className="bx bx-log-out icon"></i>
+                            <span className="text nav-text">Salir</span>
+                        </a>
+                    </li>
+                    <li className="mode">
+                        <div className="sun-moon">
+                            <i className="bx bx-moon icon moon"></i>
+                            <i className="bx bx-sun icon sun"></i>
+                        </div>
+                        <span className="mode-text text" ref={modeTextRef}>Modo oscuro</span>
+                        <div className="toggle-switch" ref={modeSwitchRef}>
+                            <span className="switch"></span>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </nav>
+    );
 }
